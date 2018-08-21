@@ -1,0 +1,33 @@
+version: '2'
+services:
+ hub:
+   image: selenium/hub
+   networks:
+     gridnet:
+        ipv4_address: 10.5.0.2     
+   ports:
+     - "4444:4444"
+   container_name: hub
+ chrome:
+   image: selenium/node-chrome
+   networks:
+     gridnet:
+       ipv4_address: 10.5.0.3     
+   environment:
+     - HUB_PORT_4444_TCP_ADDR=hub
+     - HUB_PORT_4444_TCP_PORT=4444
+ firefox:
+   image: selenium/node-firefox
+   networks:
+     gridnet:
+       ipv4_address: 10.5.0.4
+   environment:
+     - HUB_PORT_4444_TCP_ADDR=hub
+     - HUB_PORT_4444_TCP_PORT=4444
+networks:
+   gridnet:
+      driver: bridge
+      ipam:
+        config:
+          - subnet: 10.5.0.0/16
+            gateway: 10.5.0.1

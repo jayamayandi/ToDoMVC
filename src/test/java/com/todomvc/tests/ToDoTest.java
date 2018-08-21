@@ -6,9 +6,6 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.JUnitCore;
-import org.junit.runner.Result;
-import org.junit.runner.notification.Failure;
 
 import com.todomvc.models.MatchByTaskName;
 import com.todomvc.models.MatchByTaskStatus;
@@ -32,7 +29,8 @@ public class ToDoTest extends BaseTest {
 	public void tearDown() throws Exception {
 		super.tearDown();
 	}
-
+	
+	/*Test case to verify adding a todo task*/
 	@Test
 	public void validateAddingTaskToDoList() throws Exception {
 		BasePage basePage = new BasePage(driver);
@@ -50,6 +48,7 @@ public class ToDoTest extends BaseTest {
 		Assert.assertEquals("To Do Count increased after adding task","2", todoPage.getToDoCount());
 	}
 	
+	/*Test case to verify removing a todo task using cross button*/
 	@Test
 	public void validateRemovalTaskfromToDoList() throws Exception {
 		BasePage basePage = new BasePage(driver);
@@ -58,15 +57,13 @@ public class ToDoTest extends BaseTest {
 		todoPage.enterToDoTask("First Task");
 		todoPage.enterToDoTask("Second Task");
 		
-		//List<Tasks> firstTasks = todoPage.getMatchedTasks(new MatchByTaskStatus("firstTask"));
-		
 		List<Tasks> firstTask = todoPage.getMatchedTasks(new MatchByTaskName("First Task"));
 		List<Tasks> secondTask = todoPage.getMatchedTasks(new MatchByTaskName("Second Task"));
 		
 		Assert.assertEquals("Task added successfully",1, firstTask.size());
 		Assert.assertEquals("Task added successfully",1, secondTask.size());
 		
-		firstTask.get(0).deleteTask();
+		firstTask.get(0).deleteTask(driver);
 		
 		List<Tasks> allTasks = todoPage.getMatchedTasks(new MatchByTaskStatus("All"));
 		
@@ -75,6 +72,7 @@ public class ToDoTest extends BaseTest {
 		
 	}
 	
+	/*Test case to verify completed checkbox in the task*/
 	@Test
 	public void testAddingSelectedTaskToCompletedList() throws Exception {
 		BasePage basePage = new BasePage(driver);
@@ -103,11 +101,11 @@ public class ToDoTest extends BaseTest {
 		
 	}
 	
+	/*Test case to verify aading all tasks to completed by checking the button*/
 	@Test
 	public void testAllTaskToCompletedList() throws Exception {
 		BasePage basePage = new BasePage(driver);
-	
-		
+
 		ToDoPage todoPage = new ToDoPage(basePage.clickEmbedJSLink());
 		todoPage.enterToDoTask("First Task");
 		todoPage.enterToDoTask("Second Task");
@@ -132,6 +130,7 @@ public class ToDoTest extends BaseTest {
 		
 	}
 	
+	/*Test case to verify clear all completed button*/
 	@Test
 	public void clearAllCompletedTasks() throws Exception {
 		BasePage basePage = new BasePage(driver);	
@@ -159,11 +158,11 @@ public class ToDoTest extends BaseTest {
 		Assert.assertEquals("Third task added to completed list", "Third Task",completedTasks.get(2).getTaskName());		
 		
 		todoPage.clearAllCompleted();
-		
-		completedTasks = todoPage.getMatchedTasks(new MatchByTaskStatus("Completed"));
-		Assert.assertEquals("All completed tasks cleared",0, completedTasks.size());
+		Assert.assertTrue("All completed tasks cleared successfully",todoPage.checkAnyTaskPresent());
+	    
 	}
 	
+	/*Test case to verfiy whether filters work fine -completed, all,active*/
 	@Test
 	public void testFilters() throws Exception {
 		BasePage basePage = new BasePage(driver);	
@@ -188,7 +187,6 @@ public class ToDoTest extends BaseTest {
 		thirdTask.get(0).markCompletedCheckbox();
 		
 		todoPage.chooseFilter("Completed");
-		//Thread.sleep(5000);
 		List<Tasks> allTasksInCurrentView = todoPage.getMatchedTasks(new MatchByTaskStatus("All"));
 		
 		Assert.assertEquals("Number of tasks in completed view is as expected",2,allTasksInCurrentView.size());
@@ -204,6 +202,7 @@ public class ToDoTest extends BaseTest {
 				
 	}
 	
+	/*Test case to validate whether the task can be edited*/
 	@Test
 	public void validateEditTask() throws Exception {
 		BasePage basePage = new BasePage(driver);

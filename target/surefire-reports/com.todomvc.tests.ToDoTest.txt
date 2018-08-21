@@ -1,4 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.todomvc.tests.ToDoTest
 -------------------------------------------------------------------------------
-Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 54.392 s - in com.todomvc.tests.ToDoTest
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.171 s <<< FAILURE! - in com.todomvc.tests.ToDoTest
+com.todomvc.tests.ToDoTest  Time elapsed: 0.171 s  <<< ERROR!
+java.lang.ExceptionInInitializerError
+Caused by: java.lang.IllegalStateException: The path to the driver executable must be set by the webdriver.chrome.driver system property; for more information, see https://github.com/SeleniumHQ/selenium/wiki/ChromeDriver. The latest version can be downloaded from http://chromedriver.storage.googleapis.com/index.html
+

@@ -2,12 +2,12 @@ package com.todomvc.pages;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -101,6 +101,15 @@ public class ToDoPage {
 	    	
 	    }
 	    	
+	}
+	
+	public boolean checkAnyTaskPresent() {
+        new WebDriverWait(driver, 10)
+        .pollingEvery(2, TimeUnit.SECONDS)
+        .withTimeout(10, TimeUnit.SECONDS)
+        .until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("ul#todo-list")));
+        
+        return true;
 	}
 }
 		

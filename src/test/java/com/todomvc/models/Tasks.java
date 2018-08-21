@@ -40,9 +40,11 @@ public class Tasks {
 		
 	}
 
-	public void deleteTask() {
-		task.click();
-		task.findElement(By.cssSelector("button.destroy")).click();
+	public void deleteTask(WebDriver driver) {
+		Actions act = new Actions(driver);
+		act.click(task).build().perform();
+		WebElement deleteButton = task.findElement(By.cssSelector("button.destroy"));
+		act.moveToElement(deleteButton).click(deleteButton).build().perform();
 	}
 	
 	public void editTask(WebDriver driver,String newValue) throws InterruptedException {
