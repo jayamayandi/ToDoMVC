@@ -33,32 +33,36 @@ public class DriverFactory {
 	 * @return WebDriver
 	 */
 	private WebDriver getLocalDriver() {
-		String browser = props.getProperty("browser").toLowerCase();
-		
-		//if browser is not set via a maven profile, check for a command line arg
-		if(browser.equals("${browser}")) {
-			browser = System.getProperty("browser");
-		}
-		
 		WebDriver driver;
+
+		String os = System.getProperty("os");
 		
-		if(browser == null) {
-			browser = "";
+		if(os == null) {
+			os = "";
 		}
-			
-		ChromeOptions options = new ChromeOptions();
-		options.addArguments("headless");
-		options.addArguments("window-size=1200x600");
 		
-		driver = new ChromeDriver(options);
+		if(os.equals("windows")) {
+			System.setProperty("webdriver.chrome.driver", "C:/Drivers/chromedriver_win32/chromedriver.exe");
+            driver = new ChromeDriver();
+		}else {
+			
+			ChromeOptions options = new ChromeOptions();
+			options.addArguments("headless");
+			options.addArguments("window-size=1200x600");	
+			driver = new ChromeDriver(options);
+		}
+		
     	driver.manage().window().maximize();
     	return driver;
 	}
 	 		
-	private WebDriver getRemoteDriver() throws MalformedURLException {
+	private WebDriver getRemoteDriver() throws MalformedURLException {	
+		String browser = props.getProperty("browser");
+		
+		if(browser == null) {
+			browser = "";
+		}
 
-    	String browser = props.getProperty("browser");
-    	
     	DesiredCapabilities capabilities;
     	
     	switch(browser) {
