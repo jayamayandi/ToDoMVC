@@ -42,7 +42,7 @@ public class DriverFactory {
 		}
 		
 		if(os.equals("windows")) {
-			System.setProperty("webdriver.chrome.driver", "C:/Drivers/chromedriver_win32/chromedriver.exe");
+			System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+ "/src/test/resources/chromedriver.exe");
             driver = new ChromeDriver();
 		}else {
 			
